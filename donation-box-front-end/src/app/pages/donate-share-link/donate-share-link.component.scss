@@ -1,0 +1,139 @@
+
+
+section {
+    overflow-x: hidden;
+	overflow-y: auto;
+	scroll-behavior: smooth;
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+
+	background-color: #f8f8f8;
+}
+
+/** Just to polish the product */
+.Loader {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background-color: #f8f8f8;
+	overflow: hidden;
+	transition: ease 0.3s;
+	z-index: 99;
+}
+
+.Loader.hidden {
+	animation: fadeOutt 1s;
+	animation-fill-mode: forwards;
+	overflow-y: visible;
+}
+
+@keyframes fadeOutt {
+	100% {
+		visibility: hidden;
+		opacity: 0;
+	}
+}
+
+/** The loader itself */
+.spinnerPairHolder {
+	display: grid;
+	position: absolute;
+	width: 400px;
+	height: 100px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 1;
+
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.spinnerPairHolder .spinnerPair {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+.spinnerPairHolder .spinnerPair .spinnerPairCercle {
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	top: 0;
+	left: 50%;
+	border-radius: 999px;
+	transform: translateX(-50%);
+
+	animation: loaderBallsSpin 2s infinite ease-in-out;
+}
+
+/** Ball 1 */
+.spinnerPairHolder .spinnerPair .spinnerPairCercle:nth-child(1) {
+	background-image: linear-gradient(to top right, #a11562 15%, #fa2b51);
+}
+
+.spinnerPairHolder .spinnerPair:nth-child(1) .spinnerPairCercle:nth-child(1) {
+	animation-delay: 0s;
+}
+.spinnerPairHolder .spinnerPair:nth-child(2) .spinnerPairCercle:nth-child(1) {
+	animation-delay: 0.3s;
+}
+.spinnerPairHolder .spinnerPair:nth-child(3) .spinnerPairCercle:nth-child(1) {
+	animation-delay: 0.6s;
+}
+.spinnerPairHolder .spinnerPair:nth-child(4) .spinnerPairCercle:nth-child(1) {
+	animation-delay: 0.9s;
+}
+.spinnerPairHolder .spinnerPair:nth-child(5) .spinnerPairCercle:nth-child(1) {
+	animation-delay: 1.2s;
+}
+
+/** Ball 2 */
+.spinnerPairHolder .spinnerPair .spinnerPairCercle:nth-child(2) {
+	background-image: linear-gradient(to top right, #0d5a7e 15%, #0ccee7);
+}
+
+.spinnerPairHolder .spinnerPair:nth-child(1) .spinnerPairCercle:nth-child(2) {
+	animation-delay: 1s;
+}
+.spinnerPairHolder .spinnerPair:nth-child(2) .spinnerPairCercle:nth-child(2) {
+	animation-delay: 1.3s;
+}
+.spinnerPairHolder .spinnerPair:nth-child(3) .spinnerPairCercle:nth-child(2) {
+	animation-delay: 1.6s;
+}
+.spinnerPairHolder .spinnerPair:nth-child(4) .spinnerPairCercle:nth-child(2) {
+	animation-delay: 1.9s;
+}
+.spinnerPairHolder .spinnerPair:nth-child(5) .spinnerPairCercle:nth-child(2) {
+	animation-delay: 2.2s;
+}
+
+@keyframes loaderBallsSpin {
+	0% {
+		top: 0%;
+		z-index: 2;
+	}
+
+	25% {
+		transform: translateX(-50%) scale(1.2, 1.2);
+	}
+
+	50% {
+		top: calc(100% - 25px);
+	}
+
+	75% {
+		transform: translateX(-50%) scale(0.8, 0.8);
+	}
+
+	100% {
+		top: 0%;
+		z-index: 1;
+	}
+}

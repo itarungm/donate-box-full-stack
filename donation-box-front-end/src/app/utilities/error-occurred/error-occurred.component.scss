@@ -1,0 +1,187 @@
+$colors: (
+    main: #00a39b,
+    comp: #cf0079,
+    glow: #ffd200,
+    kitt: #cf0000,
+    z: #e6e6e6,
+    m: #686868,
+    a: #161616
+);
+
+/** SCSS function to return a colour from a list, in hexidecimal or rgba value
+ * @param name: key used in the $colors list associated with a hexadecimal colour
+ * @param opacity: opacity value [0, 100] to be used by the rgba() colour; hex (default) to get the solid colour in hexadecimal value
+**/
+@function color($name, $opacity: hex) {
+    @if map-has-key($colors, $name) { // If the colour exists in the list…
+        @if $opacity != hex { // …return RGBA value
+            $opacity-decimal: $opacity/100;
+            @return rgba(map-get($colors, $name), $opacity-decimal);
+        }
+        @else { // …returns hexidecimal value
+            @return map-get($colors, $name);
+        }
+    }
+    @else { // Return a CSS colour keyword in case it exists
+        @return unquote($name);
+    }
+}
+
+* { box-sizing: border-box; }
+
+
+section {
+  // height: 100%;
+  font-size: 16px;
+  font-family: Helvetica, Arial, sans-serif, system-ui;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  min-height: 100vh;
+  margin: 0;
+  color: color(z);
+  background: mix(color(a), color(main)) radial-gradient(circle at center,
+    hsl(325, 99.963%, 20%) 0%,
+hsl(325, 99.32258%, 19.86%) 8.1%,
+hsl(325, 97.664999999999997%, 19.47%) 15.5%,
+hsl(325, 94.98754%, 18.86%) 22.5%,
+hsl(325, 91.16258%, 18.07%) 29%,
+hsl(325, 86.31756%, 17.15%) 35.3%,
+hsl(325, 80.324999999999993%, 16.13%) 41.2%,
+hsl(325, 73.057499999999992%, 15.05%) 47.1%,
+hsl(325, 64.5151%, 13.95%) 52.9%,
+hsl(325, 54.69749999999999%, 12.87%) 58.8%,
+hsl(325, 43.7324999999999951%, 11.85%) 64.7%,
+hsl(325, 32.00257%, 10.93%) 71%,
+hsl(325, 20.48%, 10.14%) 77.5%,
+hsl(325, 10.187249999999999%, 9.53%) 84.5%,
+hsl(325, 2.7922499999999997%, 9.14%) 91.9%,
+hsl(180, 0%, 9%) 100%
+  );
+}
+
+h1 {
+  --distance: .01em;
+  --dist-factor: 1;
+  position: relative;
+  display: block;
+  margin: 0;
+  font-size: 15vmax;
+  font-weight: normal;
+  font-family: monospace;
+  line-height: 1;
+  color: mix(color(comp), color(z));
+  filter: saturate(150%);
+  
+  > [data-overlay] {
+    position: relative;
+    
+    &::after {
+      --dist-factor: 32;
+      content: attr(data-overlay);
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      color: color(glow);
+      font-size: .125em;
+    }
+  }
+  
+  &,
+  &::after,
+  [data-overlay]::after {
+    backface-visibility: hidden;
+    animation: animText 3s linear infinite;
+  }
+  
+  &::after {
+    --dist-factor: 2;
+    content: attr(data-txt);
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: mix(color(main), color(z));
+    mix-blend-mode: screen;
+  }
+  
+  &::after, [data-overlay]:first-child::after {
+    animation-direction: reverse;
+  }
+}
+
+p {
+  position: relative;
+  color: color(z);
+  text-align: center;
+}
+
+@keyframes animText {
+  0% {
+    transform:
+      rotate(0deg)
+      translate(
+        calc(var(--distance) * -1 * var(--dist-factor)),
+        calc(var(--distance) * -1 * var(--dist-factor))
+      )
+      rotate(0deg);
+  }
+  100% {
+    transform:
+      rotate(360deg)
+      translate(
+        calc(var(--distance) * -1 * var(--dist-factor)),
+        calc(var(--distance) * -1 * var(--dist-factor))
+      )
+      rotate(-360deg);
+  }
+}
+
+.titanic {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: .1725em;
+  font-size: 50vmax;
+  transform-origin: 33.3% 100%;
+  transform: rotate(30deg);
+  
+  &::before,
+  &::after {
+    content: '';
+    margin: 0 auto;
+  }
+  
+  &::before {
+    position: absolute;
+    left: .125em;
+    right: .5em;
+    bottom: 100%;
+    width: .1em;
+    height: .25em;
+    border-radius: .0125em;
+    background: color('a');
+    box-shadow: .25em 0 0 color('a'), .5em 0 0 color('a');
+  }
+  
+  &::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 1em;
+    height: .25em;
+    //clip-path: polygon(.05em 0, calc(100% - .05em) 0, 100% .05em, 100% 100%, 0 100%, 0 .05em);
+    //border-radius: 0 0 .025em .05em;
+    background: linear-gradient(to bottom, mix(color('z'), color('a')) 19.5%, mix(color('kitt'), color('a')) 20.5%, mix(color('kitt'), color('a')) 79.5%, color('a') 80.5%);
+    
+    clip-path: polygon(0 0, 100% 0, calc(100% - .025em) .05em, calc(100% - .1em) 100%, .1em 100%, .025em .05em);
+  }
+}

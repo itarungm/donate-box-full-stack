@@ -1,0 +1,89 @@
+<div class="test" style="position: relative;">
+<section>
+
+<div class="donate">
+    <div class="donate-black">
+      <h2><span>₹</span> Donate</h2>
+      <p>Your little contribution can help me a lot. Choose the amount you wish to donate, as one-time or monthly payment. </p>
+    </div>
+    <div class="donate-blue">
+      <h3>Donation amount*</h3>
+      <div class="donate-amount-box">
+        <div class="donate-amount">
+          <div class="denomination" [ngClass]="amount===selectedAmount?'selected':''" *ngFor="let amount of amounts" (click)="onAmountSelect(amount)">
+            <input autocomplete="off" type="radio" name="amount" id="{{'amount'+amount}}" [value]="amount" checked="">
+            <label for="{{'amount'+amount}}">₹ {{amount}}</label>
+          </div>
+        </div>
+        <div class="denomination-other">
+            <input [(ngModel)]="customAmount" #val (ngModelChange)="onAmountSelect(+val.value)" autocomplete="off"  type="number" name="amount" type="number"
+            min="1"
+            step="1"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+             value=""
+              placeholder="₹ Enter Other Amount">
+          </div> 
+      </div>
+    </div>
+    <div class="donate-black donate-type">
+      <h3>Donation type*</h3>
+      <label>
+                  <input type="radio" name="donation_type" value="single" checked="checked" autocomplete="off" class="required">
+                  One-Time
+      </label>
+      <label>
+                  <input disabled type="radio" name="donation_type" value="recurring" autocomplete="off" class="required">
+                  Monthly
+      </label>
+    </div>
+    <div class="donate-blue donate-payment">
+      <h3>Payment Method</h3>
+      <div>
+        <label>
+          <input type="radio" name="payment" value="paypal" checked="checked" autocomplete="off">
+          Razorpay
+        </label>
+        <!-- <label>
+          <input type="radio" name="payment" value="crypto" autocomplete="off">Cryptocurrency
+        </label> -->
+      </div>
+      <div class="donate-submit">
+        <button type="submit" autocomplete="off" (click)="openDialog()">Donate ₹{{selectedAmount}}</button>
+        <p><small>Please note that contributions are not tax-deductible.</small></p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div class="overlay" [ngStyle]="{'display':showDialog?'block':'none'}">
+
+ 
+
+
+</div>
+
+
+</div>
+
+<!-- <div class="dialogOuter"> -->
+
+
+<div class="dialog" [ngClass]="showDialog?'show':'hide'">
+  <div class="dialog-header">
+    <div><h4>Contributor's Name</h4></div>
+    <div (click)="closeDialog()" class="cursor-pointer"><img src="../../../assets/icons/x.svg" alt="close" width="19px" height="19px"></div>
+  </div>
+  <form>
+  <input class="input" name="contributorName" [(ngModel)]="contributorName" placeholder="Enter your name.." type="text" required>
+  <span class="btns">
+       <button class="btn btn-secondary" type="submit" [disabled]="!contributorName"  (click)="redirectToPayment(false)">GO</button>
+       <button class="btn btn-anonymous" type="button" (click)="redirectToPayment(true)">Anonymous Contribution</button>
+  </span>
+</form>
+    
+</div>
+<app-footer></app-footer>
+
+
+<!-- </div> -->
